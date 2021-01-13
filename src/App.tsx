@@ -123,6 +123,13 @@ function App() {
         updater(newValues);
     }
 
+    function addElement(stateArray: string[], textContent: string | null,updater:Function) {
+        let newValues = Object.assign([],stateArray)
+        if (textContent){newValues.push(textContent);}
+        updater(newValues);
+
+    }
+
     return (
         <div className="App">
             <Container fluid>
@@ -164,9 +171,12 @@ function App() {
 
                             {mechanisms.map((element, key) =>
                                 <tr>
-                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(mechanisms, key, setMechanisms)}>🗑</Button></td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(mechanisms, key, setMechanisms)}>🗑</Button></td>
                                 </tr>
                             )}
+                            <tr>
+                                <td contentEditable onBlur={(e) => addElement(mechanisms, e.target.textContent, setMechanisms)}>Add new</td>
+                            </tr>
                             </tbody>
                         </Table>
                     </Col>
@@ -177,9 +187,12 @@ function App() {
 
                             {trends.map((element, key) =>
                                 <tr>
-                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(trends, key,setTrends)}>🗑</Button></td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(trends, key,setTrends)}>🗑</Button></td>
                                 </tr>
                             )}
+                            <tr>
+                                <td contentEditable onBlur={(e) => addElement(trends, e.target.textContent, setTrends)}>Add new</td>
+                            </tr>
                             </tbody>
                         </Table>
 
@@ -191,10 +204,14 @@ function App() {
 
                             {values.map((element, key) =>
                                 <tr>
-                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(values, key, setValues)}>🗑</Button></td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(values, key, setValues)}>🗑</Button></td>
                                 </tr>
                             )}
+                            <tr>
+                                <td contentEditable onBlur={(e) => addElement(values, e.target.textContent, setValues)}>Add new</td>
+                            </tr>
                             </tbody>
+
                         </Table>
 
                     </Col>
