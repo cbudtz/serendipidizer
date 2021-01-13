@@ -71,7 +71,7 @@ function App() {
         "Active patient",
         "Patient psychology"
     ]);
-    const [values, setvalues] = useState([
+    const [values, setValues] = useState([
         "Cost reduction",
         "Cost reduction",
         "Cost reduction",
@@ -102,9 +102,9 @@ function App() {
     ]);
 
 
-    const [mechanism, setMechanism] = useState("");
-    const [trend, setTrend] = useState("");
-    const [value, setValue] = useState("");
+    const [mechanism, setMechanism] = useState(" ");
+    const [trend, setTrend] = useState(" ");
+    const [value, setValue] = useState(" ");
     function randomizeMechanism() {
         const mech = mechanisms[Math.floor(Math.random() * mechanisms.length)];
         setMechanism(mech);
@@ -117,18 +117,24 @@ function App() {
     }
 
 
+    function removeElement(stateArray:string[], key: number,updater:Function) {
+        let newValues = Object.assign([], stateArray)
+        newValues.splice(key,1);
+        updater(newValues);
+    }
+
     return (
         <div className="App">
             <Container fluid>
                 <Row>
-                    <Col><Alert>Mechanism:<br/>
+                    <Col><Alert variant={"primary"}><b>Mechanism:</b><br/>
                         {mechanism}</Alert></Col>
 
-                    <Col>Trend:<br/>
-                        {trend}</Col>
+                    <Col><Alert variant={"primary"}><b>Trend:</b><br/>
+                        {trend}</Alert></Col>
 
-                    <Col>Value:<br/>
-                        {value}</Col>
+                    <Col><Alert variant={"primary"}><b>Value:</b><br/>
+                        {value}</Alert></Col>
 
                 </Row>
                 <Row>
@@ -156,9 +162,9 @@ function App() {
                             <TableHeader title={"Mechanisms"}/>
                             <tbody>
 
-                            {mechanisms.map(element =>
+                            {mechanisms.map((element, key) =>
                                 <tr>
-                                    <td>{element}</td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(mechanisms, key, setMechanisms)}>🗑</Button></td>
                                 </tr>
                             )}
                             </tbody>
@@ -169,9 +175,9 @@ function App() {
                             <TableHeader title={"Trend"}/>
                             <tbody>
 
-                            {trends.map(element =>
+                            {trends.map((element, key) =>
                                 <tr>
-                                    <td>{element}</td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(trends, key,setTrends)}>🗑</Button></td>
                                 </tr>
                             )}
                             </tbody>
@@ -183,9 +189,9 @@ function App() {
                             <TableHeader title={"Value"}/>
                             <tbody>
 
-                            {values.map(element =>
+                            {values.map((element, key) =>
                                 <tr>
-                                    <td>{element}</td>
+                                    <td>{element} <Button variant="danger" size="sm" onClick={(e)=> removeElement(values, key, setValues)}>🗑</Button></td>
                                 </tr>
                             )}
                             </tbody>
