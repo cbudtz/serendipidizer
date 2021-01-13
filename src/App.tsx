@@ -169,7 +169,7 @@ function App() {
                             <TableHeader title={"Trend"}/>
                             <tbody>
 
-                            {mechanisms.map(element =>
+                            {trends.map(element =>
                                 <tr>
                                     <td>{element}</td>
                                 </tr>
@@ -183,7 +183,7 @@ function App() {
                             <TableHeader title={"Value"}/>
                             <tbody>
 
-                            {mechanisms.map(element =>
+                            {values.map(element =>
                                 <tr>
                                     <td>{element}</td>
                                 </tr>
