@@ -102,9 +102,14 @@ function App() {
     ]);
 
 
-    const [mechanism, setMechanism] = useState(" ");
-    const [trend, setTrend] = useState(" ");
-    const [value, setValue] = useState(" ");
+    const [mechanism, setMechanism] = useState("-");
+    const [trend, setTrend] = useState("-");
+    const [value, setValue] = useState("-");
+
+    const [inputMech,setInputMech] = useState("");
+    const [inputTrend,setInputTrend] = useState("");
+    const [inputValue,setInputValue] = useState("");
+
     function randomizeMechanism() {
         const mech = mechanisms[Math.floor(Math.random() * mechanisms.length)];
         setMechanism(mech);
@@ -114,6 +119,18 @@ function App() {
     }   function randomizeValue() {
         const value = values[Math.floor(Math.random() * values.length)];
         setValue(value);
+    }
+
+    function save(){
+        const saveState = {mechanisms: mechanisms, trends: trends, values: values}
+        localStorage.setItem("save", JSON.stringify(saveState));
+    }
+
+    function load(){
+        const saveState = JSON.parse(localStorage.getItem("save") as string);
+        setValues(saveState.values);
+        setTrends(saveState.trends);
+        setMechanisms(saveState.mechanisms);
     }
 
 
@@ -134,37 +151,44 @@ function App() {
         <div className="App">
             <Container fluid>
                 <Row>
-                    <Col><Alert variant={"primary"}><b>Mechanism:</b><br/>
-                        {mechanism}</Alert></Col>
-
-                    <Col><Alert variant={"primary"}><b>Trend:</b><br/>
-                        {trend}</Alert></Col>
-
-                    <Col><Alert variant={"primary"}><b>Value:</b><br/>
-                        {value}</Alert></Col>
-
-                </Row>
-                <Row>
-                    <Col>
+                    <Col sm={12} md={4} ><Alert variant={"primary"}><b>Mechanism:</b><br/>
+                        {mechanism}</Alert>
                         <Button onClick={randomizeMechanism}>Randomize</Button>
+                        <hr/>
                     </Col>
-                    <Col>
+
+                    <Col sm={12} md={4}><Alert variant={"primary"}><b>Trend:</b><br/>
+                        {trend}</Alert>
                         <Button onClick={randomizeTrend}>Randomize</Button>
+                        <hr/>
                     </Col>
-                    <Col>
+
+                    <Col sm={12} md={4}><Alert variant={"primary"}><b>Value:</b><br/>
+                        {value}</Alert>
                         <Button onClick={randomizeValue}>Randomize</Button>
+                        <hr/>
                     </Col>
 
                 </Row>
+
                 <Row>
                     <Col>
                         <Button onClick={()=>{randomizeTrend();randomizeMechanism();randomizeValue()}}>
                             Randomize all
                         </Button>
+                        <hr/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
+                    <Button onClick={save}>Save Locally</Button>
+                    </Col>
+                    <Col>
+                        <Button onClick={load}>Load</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12} md={4}>
                         <Table striped bordered>
                             <TableHeader title={"Mechanisms"}/>
                             <tbody>
@@ -174,13 +198,14 @@ function App() {
                                     <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(mechanisms, key, setMechanisms)}>🗑</Button></td>
                                 </tr>
                             )}
-                            <tr>
-                                <td contentEditable onBlur={(e) => addElement(mechanisms, e.target.textContent, setMechanisms)}>Add new</td>
-                            </tr>
                             </tbody>
                         </Table>
+                        <label>Add new</label>
+                        <input type={"text"} value={inputMech} onChange={(e)=>setInputMech(e.target.value)}>
+                        </input>
+                        <button onClick={()=>{addElement(mechanisms,inputMech,setMechanisms);setInputMech(""); }}>Add </button>
                     </Col>
-                    <Col>
+                    <Col sm={12} md={4}>
                         <Table striped bordered>
                             <TableHeader title={"Trend"}/>
                             <tbody>
@@ -190,14 +215,15 @@ function App() {
                                     <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(trends, key,setTrends)}>🗑</Button></td>
                                 </tr>
                             )}
-                            <tr>
-                                <td contentEditable onBlur={(e) => addElement(trends, e.target.textContent, setTrends)}>Add new</td>
-                            </tr>
                             </tbody>
                         </Table>
+                        <label>Add new</label>
+                        <input type={"text"} value={inputTrend} onChange={(e)=>setInputTrend(e.target.value)}>
+                        </input>
+                        <button onClick={()=>{addElement(trends,inputTrend,setTrends);setInputTrend(""); }}>Add </button>
 
                     </Col>
-                    <Col>
+                    <Col sm={12} md={4}>
                         <Table striped bordered>
                             <TableHeader title={"Value"}/>
                             <tbody>
@@ -207,12 +233,14 @@ function App() {
                                     <td>{element} <Button variant="danger" size="sm" onClick={()=> removeElement(values, key, setValues)}>🗑</Button></td>
                                 </tr>
                             )}
-                            <tr>
-                                <td contentEditable onBlur={(e) => addElement(values, e.target.textContent, setValues)}>Add new</td>
-                            </tr>
+
                             </tbody>
 
                         </Table>
+                        <label>Add new</label>
+                        <input type={"text"} value={inputValue} onChange={(e)=>setInputValue(e.target.value)}>
+                        </input>
+                        <button onClick={()=>{addElement(values,inputValue,setValues);setInputValue(""); }}>Add </button>
 
                     </Col>
                 </Row>
