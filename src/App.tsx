@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Alert, Button, Col, Container, Row, Table} from "react-bootstrap";
+import {Alert, Button, Col, Container, FormControl, InputGroup, Row, Table} from "react-bootstrap";
 
 
 function App() {
@@ -150,6 +150,16 @@ function App() {
     return (
         <div className="App">
             <Container fluid>
+                <Row ><Col><InputGroup>
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>
+                            Need statement:
+                        </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl as={"textarea"}/>
+                </InputGroup></Col>
+                </Row>
+                <hr/>
                 <Row>
                     <Col sm={12} md={4} ><Alert variant={"primary"}><b>Mechanism:</b><br/>
                         {mechanism}</Alert>
